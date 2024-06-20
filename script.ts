@@ -9,9 +9,13 @@ async function main() {
     await prisma.aluno.deleteMany();
 
     await prisma.usuario.create({ data: { id: '1', nome: 'User1' } });
+    await prisma.usuario.create({ data: { id: '2', nome: 'User2' } });
     for (let i = 0; i < 5; i++) {
         await prisma.aluno.create({
-            data: { nome: 'Aluno' + i, usuarioId: '1' },
+            data: { nome: 'User 1 Aluno' + i, usuarioId: '1' },
+        });
+        await prisma.aluno.create({
+            data: { nome: 'User 2 Aluno' + i, usuarioId: '2' },
         });
     }
 
