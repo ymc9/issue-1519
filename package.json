@@ -1,0 +1,20 @@
+{
+    "name": "script",
+    "license": "MIT",
+    "scripts": {
+        "push": "prisma db push",
+        "dev": "ts-node ./script.ts"
+    },
+    "dependencies": {
+        "@prisma/client": "^5.15.0",
+        "@types/node": "20.14.6",
+        "@zenstackhq/runtime": "2.2.3"
+    },
+    "devDependencies": {
+        "prisma": "^5.15.0",
+        "ts-node": "10.9.2",
+        "tsx": "^4.15.6",
+        "typescript": "5.4.5",
+        "zenstack": "2.2.3"
+    }
+}

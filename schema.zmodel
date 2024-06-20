@@ -1,0 +1,54 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+abstract model AbsModelPadrao {
+  id              String   @id @default(uuid())
+  dtHrCriacao     DateTime @default(now())
+  dtHrAtualizacao DateTime @default(now()) @updatedAt()
+}
+
+model Usuario extends AbsModelPadrao {
+  nome   String
+
+  // users can change its own data
+  @@allow("all", auth() != null && auth().id == id)
+
+  @@auth()
+
+  alunos Aluno[]
+}
+
+abstract model AbsModelDadosDoUsuario {
+  id              String   @id @default(uuid())
+  usuarioId       String   @default(auth().id)
+
+  dtHrCriacao     DateTime @default(now())
+  dtHrAtualizacao DateTime @default(now()) @updatedAt()
+
+  // relations
+  usuario         Usuario  @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+
+  // allow acess to myself
+  @@allow("all", auth() != null && auth().id == usuarioId)
+
+  @@index([usuarioId])
+}
+
+model Aluno extends AbsModelDadosDoUsuario {
+  nome         String
+  sobrenome    String?
+  celular      String?
+  email        String?
+  observacoes  String?
+  saldoDeAulas Int       @default(0)
+  dtNascimento DateTime?
+  peso         Float?
+  altura       Float?
+  removido     Boolean   @default(false)
+}
